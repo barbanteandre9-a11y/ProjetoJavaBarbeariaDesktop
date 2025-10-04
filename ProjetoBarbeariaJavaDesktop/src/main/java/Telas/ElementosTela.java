@@ -7,17 +7,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -25,8 +26,14 @@ import java.awt.FlowLayout;
  */
 public class ElementosTela extends javax.swing.JFrame {
     
-    private static final Color COR_PAINEL_BOTAO = new Color(13, 71, 161); // Azul escuro
-    private static final Color COR_PAINEL_BOTAO_HOVER = new Color(21, 101, 192); // Azul mais claro para hover
+    //cores do botão azul
+    private static final Color COR_PAINEL_BOTAO_AZUL = new Color(13, 71, 161); // Azul escuro
+    private static final Color COR_PAINEL_BOTAO_HOVER_AZUL = new Color(21, 101, 192); // Azul mais claro para hover
+    
+    //cores do botão vermelho
+    private static final Color COR_PAINEL_BOTAO_VERMELHO = new Color(115, 63, 45); // vermelho mais forte
+    private static final Color COR_PAINEL_BOTAO_HOVER_VERMELHO = new Color(140, 55, 55); // vermelho mais claro
+    
     private static final Color COR_TEXTO = Color.WHITE;
     private static final Font FONTE_BOTAO = new Font("Segoe UI", Font.BOLD, 16);
     private static final Font FONTE_ICONE = new Font("Segoe UI Symbol", Font.PLAIN, 48); // Fonte que suporta ícones unicode
@@ -35,16 +42,63 @@ public class ElementosTela extends javax.swing.JFrame {
 
     
             
-    public JPanel criarBotaoFuncionalidade(String texto, String iconeUnicode) {
+    public JPanel criarBotaoFuncionalidadeAzul(String texto, String iconeUnicode, Runnable acaoAoClicar) {
+    JPanel painel = new JPanel();
+    painel.setLayout(new BorderLayout());
+    painel.setBackground(COR_PAINEL_BOTAO_AZUL);
+    painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+    Border margem = new EmptyBorder(15, 15, 15, 15);
+    Border bordaComposta = BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(COR_PAINEL_BOTAO_AZUL, 5, true),
+        margem
+    );
+    painel.setBorder(bordaComposta);
+
+    JLabel iconeLabel = new JLabel(iconeUnicode, SwingConstants.CENTER);
+    iconeLabel.setFont(FONTE_ICONE);
+    iconeLabel.setForeground(COR_TEXTO);
+
+    JLabel textoLabel = new JLabel(texto, SwingConstants.CENTER);
+    textoLabel.setFont(FONTE_BOTAO);
+    textoLabel.setForeground(COR_TEXTO);
+
+    painel.add(iconeLabel, BorderLayout.CENTER);
+    painel.add(textoLabel, BorderLayout.SOUTH);
+
+    painel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            painel.setBackground(COR_PAINEL_BOTAO_HOVER_AZUL);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            painel.setBackground(COR_PAINEL_BOTAO_AZUL);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (acaoAoClicar != null) {
+                acaoAoClicar.run();
+            }
+        }
+    });
+
+    return painel;
+}
+
+    
+    public JPanel criarBotaoFuncionalidadeVermelho(String texto, String iconeUnicode) {
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
-        painel.setBackground(COR_PAINEL_BOTAO);
+        painel.setBackground(COR_PAINEL_BOTAO_VERMELHO);
         painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         // Borda arredondada
         Border margem = new EmptyBorder(15, 15, 15, 15);
         Border bordaComposta = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(COR_PAINEL_BOTAO, 10, true), // Simula o arredondamento
+            BorderFactory.createLineBorder(COR_PAINEL_BOTAO_VERMELHO, 10, true), // Simula o arredondamento
             margem
         );
         painel.setBorder(bordaComposta);
@@ -67,12 +121,12 @@ public class ElementosTela extends javax.swing.JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 // Efeito hover ao entrar o mouse
-                painel.setBackground(COR_PAINEL_BOTAO_HOVER);
+                painel.setBackground(COR_PAINEL_BOTAO_HOVER_VERMELHO);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                painel.setBackground(COR_PAINEL_BOTAO);
+                painel.setBackground(COR_PAINEL_BOTAO_VERMELHO);
             }
 
             @Override
@@ -88,33 +142,17 @@ public class ElementosTela extends javax.swing.JFrame {
 
         return painel;
     }
-    
-    public JLabel criarRotuloTitulo(String textoAlternativo, String caminhoIcone) {
-        JLabel rotulo = new JLabel();
-        rotulo.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        // Tenta carregar o ícone. Se falhar, usa o texto alternativo.
-        try {
-            rotulo.setIcon(new ImageIcon(ElementosTela.class.getResource(caminhoIcone)));
-        } catch (Exception e) {
-            System.err.println("Aviso: Imagem não encontrada em '" + caminhoIcone + "'. Usando texto alternativo.");
-            rotulo.setText(textoAlternativo);
-            rotulo.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 24));
-            rotulo.setForeground(Color.WHITE);
-        }
-        
-        return rotulo;
-    }
+
     
     public JPanel criarBotaoDeAcao(String texto, String iconeUnicode, Runnable acaoAoClicar) {
         JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        painel.setBackground(COR_PAINEL_BOTAO);
+        painel.setBackground(COR_PAINEL_BOTAO_AZUL);
         painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         
         Border margem = new EmptyBorder(1, 1, 1, 1);
         Border bordaComposta = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(COR_PAINEL_BOTAO, 2, true),
+            BorderFactory.createLineBorder(COR_PAINEL_BOTAO_AZUL, 2, true),
             margem
         );
         painel.setBorder(bordaComposta);
@@ -135,21 +173,19 @@ public class ElementosTela extends javax.swing.JFrame {
         painel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                painel.setBackground(COR_PAINEL_BOTAO_HOVER);
+                painel.setBackground(COR_PAINEL_BOTAO_HOVER_AZUL);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                painel.setBackground(COR_PAINEL_BOTAO);
+                painel.setBackground(COR_PAINEL_BOTAO_AZUL);
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Executa a ação específica passada para este botão
-                if (acaoAoClicar != null) {
-                    acaoAoClicar.run();
-                }
+            painel.dispatchEvent(e); // reenvia o clique para quem adicionou o painel
             }
+
         });
 
         return painel;

@@ -11,5 +11,5 @@ import entities.Appointment;
  * @author andre
  */
 public class ResponseAppointmentJson {
-    public ResponseAppointmentJson appointment;
+    public Appointment appointment;
 }

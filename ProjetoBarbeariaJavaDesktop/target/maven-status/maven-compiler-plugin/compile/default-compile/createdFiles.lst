@@ -1,43 +1,37 @@
-<<<<<<< HEAD
-=======
-Telas\Estoque$2.class
->>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
 responses\ResponseAppointmentsJson.class
 Telas\ElementosTela$1.class
 responses\ResponseScheduledServiceJson.class
 Telas\Estoque$3.class
-<<<<<<< HEAD
 Telas\Agendamento.class
 Telas\MenuPrincipalBarbearia.class
 requests\RequestMarkServiceCompletedJson.class
+responses\ResponseSaleJson.class
+Telas\ElementosTela$3.class
+responses\ResponseProductJson.class
 entities\Appointment.class
-=======
-Telas\Despesas$1.class
-Telas\Agendamento.class
-Telas\MenuPrincipalBarbearia.class
-requests\RequestMarkServiceCompletedJson.class
-Telas\Estoque.class
-Telas\Estoque$4.class
-responses\ResponseAppointmentJson.class
->>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
+entities\Sale.class
 requests\RequestScheduleServiceJson.class
 Telas\Despesas$2.class
 responses\ResponseErrorJson.class
 Telas\Despesas$4.class
+Telas\Jbutton.class
 Telas\Despesas.class
-<<<<<<< HEAD
 enums\AppointmentStatus.class
+entities\SaleDetails.class
 Telas\ElementosTela.class
 Telas\Estoque$2.class
+requests\RequestDetailsProductSaleJson.class
 enums\PaymentType.class
 Telas\Despesas$1.class
 Telas\Estoque.class
 Telas\Estoque$4.class
+requests\RequestProductJson.class
+requests\RequestRegisterSaleJson.class
 responses\ResponseAppointmentJson.class
+responses\ResponseProductsJson.class
 com\mycompany\projetobarbeariajavadesktop\ProjetoBarbeariaJavaDesktop.class
-=======
->>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
 Telas\ElementosTela$2.class
+entities\Product.class
 Telas\Estoque$1.class
+Telas\PainelHeaderResponsivo.class
 Telas\Despesas$3.class
-Telas\ElementosTela.class

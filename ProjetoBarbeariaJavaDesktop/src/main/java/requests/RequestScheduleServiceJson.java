@@ -6,14 +6,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// O enum PaymentType precisaria ser definido em Java também.
-// Exemplo:
-// public enum PaymentType {
-//     CREDIT_CARD,
-//     DEBIT_CARD,
-//     CASH,
-//     PIX
-// }
 
 public class RequestScheduleServiceJson {
 
@@ -33,15 +25,12 @@ public class RequestScheduleServiceJson {
 
     private Long clientId;
 
-    @NotNull // Assumindo que o EmployeeId é obrigatório, assim como no C# (long não pode ser nulo)
+    @NotNull
     private Long employeeId;
 
     @NotNull(message = "Método de pagamento não informado")
-    // A validação de Enum em Java geralmente é feita com @NotNull.
-    // A anotação @Range não é aplicável diretamente a enums da mesma forma.
-    // Se você precisar garantir que um valor numérico específico seja enviado,
-    // o tipo no DTO deveria ser Integer e então o @Range poderia ser usado.
-    private RequestScheduleServiceJson paymentType;
+    
+    private PaymentType paymentType;
 
     // Getters e Setters
 
@@ -93,11 +82,11 @@ public class RequestScheduleServiceJson {
         this.employeeId = employeeId;
     }
 
-    public RequestScheduleServiceJson getPaymentType() {
+    public PaymentType getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(RequestScheduleServiceJson paymentType) {
+    public void setPaymentType(PaymentType paymentType) {
         this.paymentType = paymentType;
     }
 }

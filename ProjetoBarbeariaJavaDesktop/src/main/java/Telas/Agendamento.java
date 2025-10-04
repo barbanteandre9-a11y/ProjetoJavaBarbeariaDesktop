@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane; 
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.FlowLayout;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities; // Adicionado para consistência
 
 /**
  * @author ht3049931
@@ -17,11 +17,9 @@ import javax.swing.JOptionPane;
 public class Agendamento extends JFrame {
 
     private JPanel painelPrincipal;
-    private JPanel painelDeConteudo; 
-    private JPanel painelDeAcoes;    
-    private JLabel rotuloTitulo;
-    private JTable tabelaAgendamentos; // NOVO: Espaço para a futura tabela
-
+    private JPanel painelDeConteudo;
+    private JPanel painelDeAcoes;
+    private JTable tabelaAgendamentos;
 
     public Agendamento() {
         super("Agendamento - Sistema de Barbearia");
@@ -34,48 +32,49 @@ public class Agendamento extends JFrame {
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
 
-        rotuloTitulo = elemento.criarRotuloTitulo("Área de Agendamento", "/images/Gemini_Generated_Image_8n3h3u8n3h3u8n3h.png");
+        // 1. CRIAÇÃO DO HEADER RESPONSIVO
+        // Substituímos o 'rotuloTitulo' pelo 'PainelHeaderResponsivo'
+        PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
+            "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg"
+        );
 
-        // 2. PAINEL DE AÇÕES
+        // 2. PAINEL DE AÇÕES (código original mantido)
         painelDeAcoes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         painelDeAcoes.setBackground(Color.WHITE);
-        painelDeAcoes.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Espaçamento
+        painelDeAcoes.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // 3. CRIAÇÃO DO BOTÃO DE AÇÃO
-        // Ícone de "mais": ➕ (U+2795)
+        // 3. CRIAÇÃO DO BOTÃO DE AÇÃO (código original mantido)
         Runnable acaoAdicionar = () -> JOptionPane.showMessageDialog(this, "Lógica para abrir a tela de novo agendamento!");
         JPanel botaoAdicionar = elemento.criarBotaoDeAcao("Adicionar Agendamento", "➕", acaoAdicionar);
         
-        // Adiciona o botão ao painel de ações
         painelDeAcoes.add(botaoAdicionar);
 
-        // tabela de exemplo
+        // 4. TABELA DE EXEMPLO (código original mantido)
         String[] colunas = {"Data", "Hora", "Cliente", "Serviço", "Status"};
         Object[][] dados = {
-            {"03/10/2025", "10:00", "João Silva", "Corte", "Confirmado"},
-            {"03/10/2025", "11:00", "Carlos Pereira", "Barba", "Confirmado"}
+            {"04/10/2025", "10:00", "João Silva", "Corte", "Confirmado"},
+            {"04/10/2025", "11:00", "Carlos Pereira", "Barba", "Confirmado"}
         };
         tabelaAgendamentos = new JTable(dados, colunas);
         
-        // 5. PAINEL DE CONTEÚDO (que organiza a barra de ações e a tabela)
+        // 5. PAINEL DE CONTEÚDO (código original mantido)
         painelDeConteudo = new JPanel(new BorderLayout());
         painelDeConteudo.setBackground(Color.WHITE);
-        painelDeConteudo.add(painelDeAcoes, BorderLayout.NORTH); // Botão fica em cima
-        painelDeConteudo.add(new JScrollPane(tabelaAgendamentos), BorderLayout.CENTER); // Tabela fica no centro
+        painelDeConteudo.add(painelDeAcoes, BorderLayout.NORTH);
+        painelDeConteudo.add(new JScrollPane(tabelaAgendamentos), BorderLayout.CENTER);
 
-        // 6. PAINEL PRINCIPAL (que organiza o título e o conteúdo)
+        // 6. PAINEL PRINCIPAL (organiza o HEADER e o conteúdo)
         painelPrincipal = new JPanel(new BorderLayout());
         painelPrincipal.setBackground(Color.WHITE);
-        painelPrincipal.add(rotuloTitulo, BorderLayout.NORTH);
+        painelPrincipal.add(painelHeader, BorderLayout.NORTH); // Adiciona o header no topo
         painelPrincipal.add(painelDeConteudo, BorderLayout.CENTER);
 
         // 7. ADICIONA O PAINEL PRINCIPAL À JANELA
         this.add(painelPrincipal);
     }
 
-    // ... (seu método main continua o mesmo)
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             new Agendamento().setVisible(true);
         });
     }

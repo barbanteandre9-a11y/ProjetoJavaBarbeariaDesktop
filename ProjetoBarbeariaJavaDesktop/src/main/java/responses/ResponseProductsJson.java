@@ -3,14 +3,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package responses;
-import entities.Appointment;
+
+import entities.Product;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  * @author andre
  */
-public class ResponseAppointmentsJson {
-    public List<Appointment> appointments = new ArrayList<>();
+
+
+
+public class ResponseProductsJson {
+
+    private List<Product> products = new ArrayList<>();
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }
