@@ -1,16 +1,31 @@
+<<<<<<< HEAD
+=======
+Telas\Estoque$2.class
+>>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
 responses\ResponseAppointmentsJson.class
 Telas\ElementosTela$1.class
 responses\ResponseScheduledServiceJson.class
 Telas\Estoque$3.class
+<<<<<<< HEAD
 Telas\Agendamento.class
 Telas\MenuPrincipalBarbearia.class
 requests\RequestMarkServiceCompletedJson.class
 entities\Appointment.class
+=======
+Telas\Despesas$1.class
+Telas\Agendamento.class
+Telas\MenuPrincipalBarbearia.class
+requests\RequestMarkServiceCompletedJson.class
+Telas\Estoque.class
+Telas\Estoque$4.class
+responses\ResponseAppointmentJson.class
+>>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
 requests\RequestScheduleServiceJson.class
 Telas\Despesas$2.class
 responses\ResponseErrorJson.class
 Telas\Despesas$4.class
 Telas\Despesas.class
+<<<<<<< HEAD
 enums\AppointmentStatus.class
 Telas\ElementosTela.class
 Telas\Estoque$2.class
@@ -20,6 +35,9 @@ Telas\Estoque.class
 Telas\Estoque$4.class
 responses\ResponseAppointmentJson.class
 com\mycompany\projetobarbeariajavadesktop\ProjetoBarbeariaJavaDesktop.class
+=======
+>>>>>>> df991376f1591800f1c3633d15eee0e596d2d195
 Telas\ElementosTela$2.class
 Telas\Estoque$1.class
 Telas\Despesas$3.class
+Telas\ElementosTela.class
