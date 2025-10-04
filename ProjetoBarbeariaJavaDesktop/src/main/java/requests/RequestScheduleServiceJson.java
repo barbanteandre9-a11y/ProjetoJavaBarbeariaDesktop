@@ -1,5 +1,6 @@
 package requests;
 
+import enums.PaymentType;
 import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

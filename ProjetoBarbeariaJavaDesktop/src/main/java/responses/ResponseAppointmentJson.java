@@ -4,6 +4,8 @@
  */
 package responses;
 
+import entities.Appointment;
+
 /**
  *
  * @author andre

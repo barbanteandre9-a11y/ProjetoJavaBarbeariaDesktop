@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package responses;
+import entities.Appointment;
 import java.util.ArrayList;
 import java.util.List;
 

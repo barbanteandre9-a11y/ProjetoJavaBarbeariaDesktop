@@ -5,19 +5,8 @@
 package Telas;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -26,11 +15,6 @@ import javax.swing.border.EmptyBorder;
  */
 public class MenuPrincipalBarbearia extends javax.swing.JFrame {
     
-    private static final Color COR_PAINEL_BOTAO = new Color(13, 71, 161); // Azul escuro
-    private static final Color COR_PAINEL_BOTAO_HOVER = new Color(21, 101, 192); // Azul mais claro para hover
-    private static final Color COR_TEXTO = Color.WHITE;
-    private static final Font FONTE_BOTAO = new Font("Segoe UI", Font.BOLD, 16);
-    private static final Font FONTE_ICONE = new Font("Segoe UI Symbol", Font.PLAIN, 48); // Fonte que suporta ícones unicode
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipalBarbearia.class.getName());
 
@@ -39,6 +23,8 @@ public class MenuPrincipalBarbearia extends javax.swing.JFrame {
      */
     public MenuPrincipalBarbearia() {
     initComponents();
+    
+    ElementosTela elemento = new ElementosTela();
 
     // Força o painel principal a usar BorderLayout
     jPanel2.setLayout(new BorderLayout());
@@ -48,18 +34,16 @@ public class MenuPrincipalBarbearia extends javax.swing.JFrame {
 
     // Configura espaçamento e grade para os botões
     jPanelDashboard.setBorder(new EmptyBorder(20, 20, 20, 20));
-    jPanelDashboard.setLayout(new GridLayout(0, 3, 20, 20));
+    jPanelDashboard.setLayout(new GridLayout(0, 2, 20, 20));
 
     // Adiciona o painel de botões no centro
     jPanel2.add(jPanelDashboard, BorderLayout.CENTER);
 
     // Criação dos botões
-    jPanelDashboard.add(criarBotaoFuncionalidade("Agendamento", "\uD83D\uDCC6"));
-    jPanelDashboard.add(criarBotaoFuncionalidade("Estoque", "\uD83D\uDCE6"));
-    jPanelDashboard.add(criarBotaoFuncionalidade("Faturamento", "\uD83D\uDCCA"));
-    jPanelDashboard.add(criarBotaoFuncionalidade("Despesas", "\uD83D\uDCB8"));
-    jPanelDashboard.add(criarBotaoFuncionalidade("Cadastro de Produtos", "➕"));
-    jPanelDashboard.add(criarBotaoFuncionalidade("Cadastro de Despesas", "✎"));
+    jPanelDashboard.add(elemento.criarBotaoFuncionalidade("Agendamento", "\uD83D\uDCC6"));
+    jPanelDashboard.add(elemento.criarBotaoFuncionalidade("Estoque", "\uD83D\uDCE6"));
+    jPanelDashboard.add(elemento.criarBotaoFuncionalidade("Faturamento", "\uD83D\uDCCA"));
+    jPanelDashboard.add(elemento.criarBotaoFuncionalidade("Despesas", "\uD83D\uDCB8"));
 
     setTitle("Dashboard - Sistema de Barbearia");
     setSize(1000, 800);
@@ -68,62 +52,7 @@ public class MenuPrincipalBarbearia extends javax.swing.JFrame {
 }
 
     
-    private JPanel criarBotaoFuncionalidade(String texto, String iconeUnicode) {
-        JPanel painel = new JPanel();
-        painel.setLayout(new BorderLayout());
-        painel.setBackground(COR_PAINEL_BOTAO);
-        painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        
-        // Borda arredondada (simulada com EmptyBorder)
-        Border margem = new EmptyBorder(15, 15, 15, 15);
-        Border bordaComposta = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(COR_PAINEL_BOTAO, 10, true), // Simula o arredondamento
-            margem
-        );
-        painel.setBorder(bordaComposta);
-
-        // Ícone
-        JLabel iconeLabel = new JLabel(iconeUnicode, SwingConstants.CENTER);
-        iconeLabel.setFont(FONTE_ICONE);
-        iconeLabel.setForeground(COR_TEXTO);
-
-        // Texto
-        JLabel textoLabel = new JLabel(texto, SwingConstants.CENTER);
-        textoLabel.setFont(FONTE_BOTAO);
-        textoLabel.setForeground(COR_TEXTO);
-
-        painel.add(iconeLabel, BorderLayout.CENTER);
-        painel.add(textoLabel, BorderLayout.SOUTH);
-
-        // Adicionar eventos do mouse
-        painel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // Efeito hover ao entrar o mouse
-                painel.setBackground(COR_PAINEL_BOTAO_HOVER);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // Volta à cor original ao sair
-                painel.setBackground(COR_PAINEL_BOTAO);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Ação ao clicar no painel
-                JOptionPane.showMessageDialog(
-                    MenuPrincipalBarbearia.this,
-                    "Abrindo a tela de: " + texto,
-                    "Navegação",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-            }
-        });
-
-        return painel;
-    }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
