@@ -9,5 +9,5 @@ package responses;
  * @author andre
  */
 public class ResponseAppointmentJson {
-    public Appointment appointment;
+    public ResponseAppointmentJson appointment;
 }

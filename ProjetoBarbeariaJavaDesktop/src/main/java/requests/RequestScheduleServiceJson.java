@@ -40,7 +40,7 @@ public class RequestScheduleServiceJson {
     // A anotação @Range não é aplicável diretamente a enums da mesma forma.
     // Se você precisar garantir que um valor numérico específico seja enviado,
     // o tipo no DTO deveria ser Integer e então o @Range poderia ser usado.
-    private PaymentType paymentType;
+    private RequestScheduleServiceJson paymentType;
 
     // Getters e Setters
 
@@ -92,11 +92,11 @@ public class RequestScheduleServiceJson {
         this.employeeId = employeeId;
     }
 
-    public PaymentType getPaymentType() {
+    public RequestScheduleServiceJson getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(PaymentType paymentType) {
+    public void setPaymentType(RequestScheduleServiceJson paymentType) {
         this.paymentType = paymentType;
     }
 }
