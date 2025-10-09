@@ -12,9 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.Border;
@@ -190,4 +188,30 @@ public class ElementosTela extends javax.swing.JFrame {
 
         return painel;
     }
+    
+    public JPanel criarBotaoIcone(String iconeUnicode, Runnable acaoAoClicar) {
+    // Painel que servirá de botão
+    JPanel painel = new JPanel();
+    painel.setOpaque(false); 
+    painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    painel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); 
+
+    JLabel iconeLabel = new JLabel(iconeUnicode);
+    iconeLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 28)); 
+    iconeLabel.setForeground(Color.WHITE); // Cor branca para contrastar com o header
+
+    painel.add(iconeLabel);
+
+    // Adiciona a ação de clique
+    painel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (acaoAoClicar != null) {
+                acaoAoClicar.run();
+            }
+        }
+    });
+
+    return painel;
+}
 }

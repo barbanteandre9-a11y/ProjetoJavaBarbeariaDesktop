@@ -24,8 +24,15 @@ public class MenuPrincipalBarbearia extends JFrame {
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
 
+         Runnable acaoVoltarParaMenu = () -> {
+            new MenuPrincipalBarbearia().setVisible(true); // Abre o menu
+            this.dispose(); // Fecha a tela atual de agendamento
+        };
+
+        // 2. CRIAÇÃO DO HEADER, AGORA PASSANDO A AÇÃO DE VOLTAR
         PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
-            "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg"
+            "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg",
+            acaoVoltarParaMenu // Passa a ação para o header
         );
         
         painelDashboard = new JPanel();

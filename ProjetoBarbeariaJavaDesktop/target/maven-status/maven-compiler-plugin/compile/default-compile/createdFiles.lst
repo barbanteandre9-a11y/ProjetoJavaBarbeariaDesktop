@@ -1,4 +1,6 @@
 responses\ResponseAppointmentsJson.class
+Telas\Agendamento$1.class
+Telas\Agendamento$BotaoRenderer$1.class
 Telas\ElementosTela$1.class
 responses\ResponseScheduledServiceJson.class
 Telas\Estoque$3.class
@@ -10,6 +12,8 @@ Telas\ElementosTela$3.class
 responses\ResponseProductJson.class
 entities\Appointment.class
 entities\Sale.class
+Telas\ElementosTela$4.class
+Telas\Agendamento$BotaoRenderer.class
 requests\RequestScheduleServiceJson.class
 Telas\Despesas$2.class
 responses\ResponseErrorJson.class
@@ -22,8 +26,10 @@ Telas\ElementosTela.class
 Telas\Estoque$2.class
 requests\RequestDetailsProductSaleJson.class
 enums\PaymentType.class
+Telas\BotaoEditor$1.class
 Telas\Despesas$1.class
 Telas\Estoque.class
+Telas\BotaoEditor.class
 Telas\Estoque$4.class
 requests\RequestProductJson.class
 requests\RequestRegisterSaleJson.class
