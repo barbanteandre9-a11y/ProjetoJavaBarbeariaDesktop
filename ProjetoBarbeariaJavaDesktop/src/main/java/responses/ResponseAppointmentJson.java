@@ -12,4 +12,5 @@ import entities.Appointment;
  */
 public class ResponseAppointmentJson {
     public Appointment appointment;
+   
 }

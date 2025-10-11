@@ -1,6 +1,14 @@
+// Local: Telas/Agendamento.java
 package Telas;
 
+import ChamadasAPI.AgendamentoApi;
+import Telas.ElementosGeral.ElementosTela;
+import Telas.ElementosGeral.PainelHeaderResponsivo;
+import Telas.ElementosTelaAgendamento.BotaoEditor;
+import Telas.ElementosTelaAgendamento.BotaoRenderer;
+import entities.Appointment; 
 import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
@@ -16,21 +24,27 @@ public class Agendamento extends JFrame {
     private TableRowSorter<TableModel> sorter;
     private JLabel labelAviso;
 
+    // Variáveis de instância para a API e o modelo
+    private final AgendamentoApi apiService = new AgendamentoApi();
+    private DefaultTableModel modelo;
+
     public Agendamento() {
         super("Agendamento - Sistema de Barbearia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         setLocationRelativeTo(null);
         inicializarComponentes();
+        
+        // carrega as informações pegas da API
+        carregarAgendamentosNaTabela();
     }
 
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
 
-        // 1. Ação de voltar para o menu
         Runnable acaoVoltarParaMenu = () -> {
-            new MenuPrincipalBarbearia().setVisible(true);
-            this.dispose();
+             new MenuPrincipalBarbearia().setVisible(true); 
+             this.dispose();
         };
 
         // 2. Header
@@ -81,21 +95,15 @@ public class Agendamento extends JFrame {
         painelDeAcoes.add(painelDireita, BorderLayout.EAST);
 
         // 4. Tabela
-        String[] colunas = {"Data", "Hora", "Cliente", "Serviço", "Status", "Ações"};
-        Object[][] dados = {
-            {"04/10/2025", "10:00", "João Silva", "Corte", "Confirmado", null},
-            {"04/10/2025", "11:00", "Carlos Pereira", "Barba", "Confirmado", null},
-            {"05/10/2025", "14:00", "Pedro Lima", "Corte e Barba", "Pendente", null},
-            {"06/10/2025", "09:30", "Rafael Souza", "Corte", "Cancelado", null}
-        };
-
-        DefaultTableModel modelo = new DefaultTableModel(dados, colunas) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 5; // apenas coluna "Ações" é editável
-            }
-        };
-
+        String[] colunas = {"Data", "Hora", "Cliente", "Serviço", "Status", "Preço", "Ações"};
+        
+        modelo = new DefaultTableModel(new Object[0][colunas.length], colunas) {
+             @Override
+             public boolean isCellEditable(int row, int column) {
+                 return column == 6; // Coluna "Ações" (índice 6)
+             }
+         };
+         
         tabelaAgendamentos = new JTable(modelo);
         tabelaAgendamentos.setFillsViewportHeight(true);
         tabelaAgendamentos.setRowHeight(32);
@@ -116,7 +124,7 @@ public class Agendamento extends JFrame {
         scroll.setBorder(BorderFactory.createEmptyBorder());
 
         // 5. Label de aviso quando não há resultados
-        labelAviso = new JLabel("", SwingConstants.CENTER);
+        labelAviso = new JLabel("Carregando agendamentos...", SwingConstants.CENTER);
         labelAviso.setFont(new Font("Segoe UI", Font.ITALIC, 14));
         labelAviso.setForeground(Color.GRAY);
 
@@ -138,6 +146,56 @@ public class Agendamento extends JFrame {
         painelPrincipal.add(painelDeConteudo, BorderLayout.CENTER);
 
         add(painelPrincipal);
+    }
+    
+    private void carregarAgendamentosNaTabela() {
+        labelAviso.setText("Carregando agendamentos...");
+        
+        new SwingWorker<List<Appointment>, Void>() {
+            
+            @Override
+            protected List<Appointment> doInBackground() throws Exception {
+                return apiService.buscarTodosAgendamentos();
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Appointment> agendamentos = get();
+                    
+                    // limpa dados antigos
+                    modelo.setRowCount(0);
+
+                    if (agendamentos.isEmpty()) {
+                        labelAviso.setText("Não foi possível carregar agendamentos ou a lista está vazia.");
+                        return;
+                    }
+                    
+                    // Popula a tabela
+                    for (Appointment ap : agendamentos) {
+                        modelo.addRow(new Object[]{
+                            ap.getFormattedDate(),
+                            ap.getFormattedTime(),
+                            ap.getClientName(),
+                            "ID " + ap.getServiceId(), 
+                            ap.getStatus() != null ? ap.getStatus().toString() : "N/A", 
+                            ap.getFormattedPrice(),
+                            null 
+                        });
+                    }
+                    labelAviso.setText("");
+                    
+                } catch (Exception e) {
+                    // Trata exceções da thread de fundo (falha no get())
+                    JOptionPane.showMessageDialog(Agendamento.this, 
+                        "Falha ao carregar dados. Verifique a API C# e a conexão.", 
+                        "Erro de Conexão/Processamento", 
+                        JOptionPane.ERROR_MESSAGE);
+                    labelAviso.setText("Falha ao carregar dados. Verifique o console para detalhes.");
+                    e.printStackTrace();
+                }
+            }
+        }.execute();
     }
 
     private void aplicarFiltro() {
@@ -161,10 +219,10 @@ public class Agendamento extends JFrame {
         campoPesquisa.setText("");
         sorter.setRowFilter(null);
         labelAviso.setText("");
+        carregarAgendamentosNaTabela(); 
     }
 
     public static void main(String args[]) {
         SwingUtilities.invokeLater(() -> new Agendamento().setVisible(true));
     }
-    
 }

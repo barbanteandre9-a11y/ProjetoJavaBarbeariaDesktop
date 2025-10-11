@@ -4,6 +4,8 @@
  */
 package enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  *
  * @author andre
@@ -22,7 +24,7 @@ public enum PaymentType {
         this.value = value;
         this.description = description;
     }
-
+    @JsonValue
     public int getValue() {
         return value;
     }

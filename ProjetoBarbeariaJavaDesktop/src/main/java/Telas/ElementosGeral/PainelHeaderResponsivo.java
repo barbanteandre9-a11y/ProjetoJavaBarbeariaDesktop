@@ -1,4 +1,4 @@
-package Telas;
+package Telas.ElementosGeral;
 
 import java.awt.BorderLayout; // Importe o BorderLayout
 import java.awt.Dimension;

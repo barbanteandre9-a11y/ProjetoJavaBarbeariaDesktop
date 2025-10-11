@@ -13,4 +13,6 @@ import java.util.List;
  */
 public class ResponseAppointmentsJson {
     public List<Appointment> appointments = new ArrayList<>();
+    
+    public ResponseAppointmentsJson() {}
 }

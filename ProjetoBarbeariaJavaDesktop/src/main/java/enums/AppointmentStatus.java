@@ -1,17 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+// Local: enums/AppointmentStatus.java
+
 package enums;
 
-/**
- *
- * @author andre
- */
+// Adicione este import
+import com.fasterxml.jackson.annotation.JsonValue; 
+
 public enum AppointmentStatus {
     PENDING(1, "Aguardando confirmação"),
     CONFIRMED(2, "Agendamento confirmado"),
-    COMPLETED(3, "Atendimento concluído");
+    COMPLETED(3, "Atendimento concluído"); 
 
     private final int value;
     private final String description;
@@ -21,8 +18,9 @@ public enum AppointmentStatus {
         this.description = description;
     }
 
+    @JsonValue 
     public int getValue() {
-        return value;
+        return value; 
     }
 
     public String getDescription() {

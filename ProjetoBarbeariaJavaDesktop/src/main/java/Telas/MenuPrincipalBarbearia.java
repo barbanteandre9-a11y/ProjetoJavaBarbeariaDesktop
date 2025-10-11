@@ -1,5 +1,7 @@
 package Telas;
 
+import Telas.ElementosGeral.ElementosTela;
+import Telas.ElementosGeral.PainelHeaderResponsivo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
