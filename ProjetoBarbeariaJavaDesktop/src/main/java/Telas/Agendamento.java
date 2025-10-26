@@ -1,4 +1,3 @@
-// Local: Telas/Agendamento.java
 package Telas;
 
 import ChamadasAPI.AgendamentoApi;
@@ -6,9 +5,10 @@ import Telas.ElementosGeral.ElementosTela;
 import Telas.ElementosGeral.PainelHeaderResponsivo;
 import Telas.ElementosTelaAgendamento.BotaoEditor;
 import Telas.ElementosTelaAgendamento.BotaoRenderer;
-import entities.Appointment; 
+import entities.Appointment;
 import java.awt.*;
 import java.util.List;
+import java.util.Collections;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
@@ -19,46 +19,44 @@ public class Agendamento extends JFrame {
     private JPanel painelPrincipal;
     private JPanel painelDeConteudo;
     private JPanel painelDeAcoes;
-    private JTable tabelaAgendamentos;
+    public JTable tabelaAgendamentos;
     private JTextField campoPesquisa;
     private TableRowSorter<TableModel> sorter;
     private JLabel labelAviso;
 
-    // Variáveis de instância para a API e o modelo
     private final AgendamentoApi apiService = new AgendamentoApi();
     private DefaultTableModel modelo;
+
+    private List<Appointment> listaAgendamentos = Collections.emptyList();
 
     public Agendamento() {
         super("Agendamento - Sistema de Barbearia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 800);
+        setSize(1024, 1080);
         setLocationRelativeTo(null);
         inicializarComponentes();
         
-        // carrega as informações pegas da API
         carregarAgendamentosNaTabela();
     }
 
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
-
+        
         Runnable acaoVoltarParaMenu = () -> {
-             new MenuPrincipalBarbearia().setVisible(true); 
+            new MenuPrincipalBarbearia().setVisible(true); 
              this.dispose();
         };
 
-        // 2. Header
         PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
-            "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg",
+            "/images/teste.jpg",
             acaoVoltarParaMenu
         );
 
-        // 3. Painel de ações principal (usando BorderLayout)
         painelDeAcoes = new JPanel(new BorderLayout());
         painelDeAcoes.setBackground(Color.WHITE);
         painelDeAcoes.setBorder(new EmptyBorder(10, 20, 10, 20));
 
-        // Subpainel esquerdo (pesquisa)
+        // Pesquisa
         JPanel painelEsquerda = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         painelEsquerda.setBackground(Color.WHITE);
 
@@ -72,6 +70,7 @@ public class Agendamento extends JFrame {
         botaoPesquisar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JButton botaoLimpar = new JButton("Limpar");
+        // FIX: Reaplicando configurações de estilo
         botaoLimpar.setFocusPainted(false);
         botaoLimpar.setBackground(new Color(220, 53, 69));
         botaoLimpar.setForeground(Color.WHITE);
@@ -82,11 +81,13 @@ public class Agendamento extends JFrame {
         painelEsquerda.add(botaoPesquisar);
         painelEsquerda.add(botaoLimpar);
 
-        // Subpainel direito (botão de novo agendamento)
+        // Botão Novo Agendamento
         JPanel painelDireita = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         painelDireita.setBackground(Color.WHITE);
 
-        Runnable acaoAdicionar = () -> JOptionPane.showMessageDialog(this, "Abrir tela de novo agendamento!");
+        Runnable acaoAdicionar = () -> {
+            new TelaCriarAgendamento().setVisible(true); 
+        };
         JPanel botaoAdicionar = elemento.criarBotaoDeAcao("Novo Agendamento", "➕", acaoAdicionar);
 
         painelDireita.add(botaoAdicionar);
@@ -94,21 +95,18 @@ public class Agendamento extends JFrame {
         painelDeAcoes.add(painelEsquerda, BorderLayout.WEST);
         painelDeAcoes.add(painelDireita, BorderLayout.EAST);
 
-        // 4. Tabela
-        String[] colunas = {"Data", "Hora", "Cliente", "Serviço", "Status", "Preço", "Ações"};
+        String[] colunas = {"Data", "Hora", "Cliente", "Telefone", "Serviço", "Método de Pagamentos", "Status", "Preço", "Ações"};
         
         modelo = new DefaultTableModel(new Object[0][colunas.length], colunas) {
              @Override
              public boolean isCellEditable(int row, int column) {
-                 return column == 6; // Coluna "Ações" (índice 6)
+                 return column == 8; // Coluna "Ações" (índice 8)
              }
          };
          
         tabelaAgendamentos = new JTable(modelo);
-        tabelaAgendamentos.setFillsViewportHeight(true);
-        tabelaAgendamentos.setRowHeight(32);
-        tabelaAgendamentos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        tabelaAgendamentos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tabelaAgendamentos.setFont(new Font("Dialog", Font.PLAIN, 14)); 
+        tabelaAgendamentos.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 14));
         tabelaAgendamentos.getTableHeader().setBackground(new Color(245, 245, 245));
         tabelaAgendamentos.getTableHeader().setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
         tabelaAgendamentos.setGridColor(new Color(230, 230, 230));
@@ -116,36 +114,52 @@ public class Agendamento extends JFrame {
         sorter = new TableRowSorter<>(modelo);
         tabelaAgendamentos.setRowSorter(sorter);
 
-        // Botões de editar na tabela
         tabelaAgendamentos.getColumn("Ações").setCellRenderer(new BotaoRenderer());
         tabelaAgendamentos.getColumn("Ações").setCellEditor(new BotaoEditor(this));
 
         JScrollPane scroll = new JScrollPane(tabelaAgendamentos);
         scroll.setBorder(BorderFactory.createEmptyBorder());
 
-        // 5. Label de aviso quando não há resultados
         labelAviso = new JLabel("Carregando agendamentos...", SwingConstants.CENTER);
-        labelAviso.setFont(new Font("Segoe UI", Font.ITALIC, 14));
+        labelAviso.setFont(new Font("Dialog", Font.ITALIC, 14));
         labelAviso.setForeground(Color.GRAY);
 
-        // Ações dos botões
         botaoPesquisar.addActionListener(e -> aplicarFiltro());
         botaoLimpar.addActionListener(e -> limparPesquisa());
 
-        // Painel de conteúdo
         painelDeConteudo = new JPanel(new BorderLayout());
         painelDeConteudo.setBackground(Color.WHITE);
         painelDeConteudo.add(painelDeAcoes, BorderLayout.NORTH);
         painelDeConteudo.add(scroll, BorderLayout.CENTER);
         painelDeConteudo.add(labelAviso, BorderLayout.SOUTH);
 
-        // Painel principal
         painelPrincipal = new JPanel(new BorderLayout());
         painelPrincipal.setBackground(Color.WHITE);
         painelPrincipal.add(painelHeader, BorderLayout.NORTH);
         painelPrincipal.add(painelDeConteudo, BorderLayout.CENTER);
 
         add(painelPrincipal);
+    }
+    
+ 
+    public void recarregarTabela() {
+        modelo.setRowCount(0);
+        labelAviso.setText("Recarregando agendamentos...");
+        carregarAgendamentosNaTabela();
+    }
+    
+    public Appointment getAppointmentPorLinhaVisivel(int linhaVisivel) {
+        if (linhaVisivel < 0 || sorter == null || modelo.getRowCount() == 0) {
+             return null;
+        }
+        
+        // Converte o índice da linha visível para o índice da lista interna (modelo)
+        int linhaModelo = sorter.convertRowIndexToModel(linhaVisivel);
+        
+        if (linhaModelo >= 0 && linhaModelo < listaAgendamentos.size()) {
+            return listaAgendamentos.get(linhaModelo);
+        }
+        return null;
     }
     
     private void carregarAgendamentosNaTabela() {
@@ -163,30 +177,34 @@ public class Agendamento extends JFrame {
                 try {
                     List<Appointment> agendamentos = get();
                     
-                    // limpa dados antigos
+                    listaAgendamentos = agendamentos; 
+                    
                     modelo.setRowCount(0);
-
-                    if (agendamentos.isEmpty()) {
+                    
+                    if (listaAgendamentos.isEmpty()) {
                         labelAviso.setText("Não foi possível carregar agendamentos ou a lista está vazia.");
                         return;
                     }
                     
-                    // Popula a tabela
-                    for (Appointment ap : agendamentos) {
+                    for (Appointment ap : listaAgendamentos) {
+                        String statusDescricao = ap.getStatus() != null ? ap.getStatus().getDescription() : "N/A";
+                        String pagamentoDescricao = ap.getPaymentType() != null ? ap.getPaymentType().getDescription() : "N/A";
+                        
                         modelo.addRow(new Object[]{
                             ap.getFormattedDate(),
                             ap.getFormattedTime(),
                             ap.getClientName(),
+                            ap.getClientPhone(),
                             "ID " + ap.getServiceId(), 
-                            ap.getStatus() != null ? ap.getStatus().toString() : "N/A", 
+                            pagamentoDescricao,
+                            statusDescricao,
                             ap.getFormattedPrice(),
-                            null 
+                            null
                         });
                     }
                     labelAviso.setText("");
                     
                 } catch (Exception e) {
-                    // Trata exceções da thread de fundo (falha no get())
                     JOptionPane.showMessageDialog(Agendamento.this, 
                         "Falha ao carregar dados. Verifique a API C# e a conexão.", 
                         "Erro de Conexão/Processamento", 
@@ -198,15 +216,21 @@ public class Agendamento extends JFrame {
         }.execute();
     }
 
+    // pesquisa
     private void aplicarFiltro() {
         String termo = campoPesquisa.getText().trim();
+        
         if (termo.isEmpty()) {
             sorter.setRowFilter(null);
             labelAviso.setText("");
             return;
         }
 
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + termo));
+        try {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + termo));
+        } catch (java.util.regex.PatternSyntaxException e) {
+            sorter.setRowFilter(null); 
+        }
 
         if (tabelaAgendamentos.getRowCount() == 0) {
             labelAviso.setText("Nenhum agendamento encontrado para: \"" + termo + "\"");
@@ -219,7 +243,7 @@ public class Agendamento extends JFrame {
         campoPesquisa.setText("");
         sorter.setRowFilter(null);
         labelAviso.setText("");
-        carregarAgendamentosNaTabela(); 
+        recarregarTabela(); 
     }
 
     public static void main(String args[]) {

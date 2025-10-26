@@ -11,7 +11,6 @@ package entities;
 import enums.AppointmentStatus;
 import enums.PaymentType;
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.format.DateTimeFormatter;
 
 public class Appointment {

@@ -18,7 +18,7 @@ public class MenuPrincipalBarbearia extends JFrame {
     public MenuPrincipalBarbearia() {
         super("Menu Principal - Sistema de Barbearia");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 800);
+        setSize(1024, 1080);
         setLocationRelativeTo(null);
         inicializarComponentes();
     }
@@ -31,10 +31,10 @@ public class MenuPrincipalBarbearia extends JFrame {
             this.dispose(); // Fecha a tela atual de agendamento
         };
 
-        // 2. CRIAÇÃO DO HEADER, AGORA PASSANDO A AÇÃO DE VOLTAR
+        // header
         PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
-            "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg",
-            acaoVoltarParaMenu // Passa a ação para o header
+            "/images/teste.jpg",
+            acaoVoltarParaMenu
         );
         
         painelDashboard = new JPanel();
@@ -46,7 +46,7 @@ public class MenuPrincipalBarbearia extends JFrame {
         "\uD83D\uDCC6", 
         () -> {
         new Agendamento().setVisible(true);
-        // dispose();
+         dispose();
         }
     );
 

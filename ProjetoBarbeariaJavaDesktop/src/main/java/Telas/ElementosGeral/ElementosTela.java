@@ -34,9 +34,11 @@ public class ElementosTela extends javax.swing.JFrame {
     
     private static final Color COR_TEXTO = Color.WHITE;
     private static final Font FONTE_BOTAO = new Font("Segoe UI", Font.BOLD, 16);
-    private static final Font FONTE_ICONE = new Font("Segoe UI Symbol", Font.PLAIN, 48); // Fonte que suporta ícones unicode
+    private static final Font FONTE_ICONE = new Font("Segoe UI Symbol", Font.PLAIN, 48); 
     private static final Font FONTE_BOTAO_ACAO = new Font("Segoe UI", Font.BOLD, 12);
     private static final Font FONTE_ICONE_ACAO = new Font("Segoe UI Symbol", Font.PLAIN, 20);
+    
+    private static final Color COR_BOTAO_ICONE_HOVER = new Color(0, 0, 0, 65);
 
     
             
@@ -143,67 +145,39 @@ public class ElementosTela extends javax.swing.JFrame {
 
     
     public JPanel criarBotaoDeAcao(String texto, String iconeUnicode, Runnable acaoAoClicar) {
-        JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        painel.setBackground(COR_PAINEL_BOTAO_AZUL);
-        painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        
-        Border margem = new EmptyBorder(1, 1, 1, 1);
-        Border bordaComposta = BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(COR_PAINEL_BOTAO_AZUL, 2, true),
-            margem
-        );
-        painel.setBorder(bordaComposta);
-
-        
-        JLabel iconeLabel = new JLabel(iconeUnicode);
-        iconeLabel.setFont(FONTE_ICONE_ACAO);
-        iconeLabel.setForeground(COR_TEXTO);
-
-        
-        JLabel textoLabel = new JLabel(texto);
-        textoLabel.setFont(FONTE_BOTAO_ACAO);
-        textoLabel.setForeground(COR_TEXTO);
-        
-        painel.add(iconeLabel);
-        painel.add(textoLabel);
-
-        painel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                painel.setBackground(COR_PAINEL_BOTAO_HOVER_AZUL);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                painel.setBackground(COR_PAINEL_BOTAO_AZUL);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            painel.dispatchEvent(e); // reenvia o clique para quem adicionou o painel
-            }
-
-        });
-
-        return painel;
-    }
-    
-    public JPanel criarBotaoIcone(String iconeUnicode, Runnable acaoAoClicar) {
-    // Painel que servirá de botão
-    JPanel painel = new JPanel();
-    painel.setOpaque(false); 
+    JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+    painel.setBackground(COR_PAINEL_BOTAO_AZUL);
     painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    painel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); 
+
+    Border margem = new EmptyBorder(1, 1, 1, 1);
+    Border bordaComposta = BorderFactory.createCompoundBorder(
+        BorderFactory.createLineBorder(COR_PAINEL_BOTAO_AZUL, 2, true),
+        margem
+    );
+    painel.setBorder(bordaComposta);
 
     JLabel iconeLabel = new JLabel(iconeUnicode);
-    iconeLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 28)); 
-    iconeLabel.setForeground(Color.WHITE); // Cor branca para contrastar com o header
+    iconeLabel.setFont(FONTE_ICONE_ACAO);
+    iconeLabel.setForeground(COR_TEXTO);
 
+    JLabel textoLabel = new JLabel(texto);
+    textoLabel.setFont(FONTE_BOTAO_ACAO);
+    textoLabel.setForeground(COR_TEXTO);
+    
     painel.add(iconeLabel);
+    painel.add(textoLabel);
 
-    // Adiciona a ação de clique
     painel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            painel.setBackground(COR_PAINEL_BOTAO_HOVER_AZUL);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            painel.setBackground(COR_PAINEL_BOTAO_AZUL);
+        }
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (acaoAoClicar != null) {
@@ -214,4 +188,59 @@ public class ElementosTela extends javax.swing.JFrame {
 
     return painel;
 }
+    
+    public JPanel criarBotaoIcone(String iconeUnicode, Runnable acaoAoClicar) {
+    JPanel painel = new JPanel();
+    painel.setOpaque(false); 
+    painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    painel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); 
+
+    JLabel iconeLabel = new JLabel(iconeUnicode);
+    iconeLabel.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 28)); 
+    iconeLabel.setForeground(Color.WHITE);
+
+    painel.add(iconeLabel);
+
+    painel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (acaoAoClicar != null) {
+                    acaoAoClicar.run();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                painel.setOpaque(true);
+                painel.setBackground(COR_BOTAO_ICONE_HOVER);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                painel.setOpaque(false);
+                painel.setBackground(null);
+            }
+        });
+
+    return painel;
+}
+    public JPanel criarHeaderSimples(String titulo, Runnable acaoVoltar) {
+    JPanel painelHeader = new JPanel(new BorderLayout());
+    painelHeader.setBackground(new Color(13, 71, 161)); 
+    painelHeader.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+    JLabel labelTitulo = new JLabel(titulo);
+    labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+    labelTitulo.setForeground(Color.WHITE);
+    
+    painelHeader.add(labelTitulo, BorderLayout.CENTER);
+
+    if (acaoVoltar != null) {
+        JPanel botaoVoltar = criarBotaoIcone("⬅", acaoVoltar); 
+        painelHeader.add(botaoVoltar, BorderLayout.WEST);
+    }
+
+    return painelHeader;
+}
+    
 }
