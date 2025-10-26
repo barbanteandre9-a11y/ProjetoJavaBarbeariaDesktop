@@ -23,3 +23,14 @@
 hs_err_pid*
 replay_pid*
 /target/
+
+# Diretórios de compilação
+*.class
+
+# Arquivos de IDE (ex: NetBeans, Eclipse, IntelliJ)
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+nbproject/
