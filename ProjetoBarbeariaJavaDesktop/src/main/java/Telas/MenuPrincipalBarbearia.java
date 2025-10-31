@@ -54,7 +54,7 @@ public class MenuPrincipalBarbearia extends JFrame {
 
         
         JPanel botaoEstoque = elemento.criarBotaoFuncionalidadeVermelho("Estoque", "\uD83D\uDCE6", () -> {
-            new NewEstoque().setVisible(true);
+            new Estoque().setVisible(true);
         });
         
         painelDashboard.add(botaoEstoque);
@@ -72,8 +72,7 @@ public class MenuPrincipalBarbearia extends JFrame {
         "Despesas", 
         "\uD83D\uDCC6", 
         () -> {
-        new Despesas().setVisible(true);
-        
+            new Despesas().setVisible(true);
         }
     );
         painelDashboard.add(botaoDespesas);
