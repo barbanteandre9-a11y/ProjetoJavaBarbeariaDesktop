@@ -10,8 +10,7 @@ import java.util.List;
 public class RequestScheduleServiceJson {
 
     @NotNull(message = "A data do agendamento deve ser informada")
-    @FutureOrPresent(message = "A data do agendamento deve ser válida") // Garante que a data não está no passado
-    private LocalDateTime appointmentDateTime;
+    @FutureOrPresent(message = "A data do agendamento deve ser válida") 
 
     @NotNull(message = "É obrigatório informar os serviços desejados")
     @NotEmpty(message = "Pelo menos um serviço deve ser selecionado")
@@ -22,6 +21,8 @@ public class RequestScheduleServiceJson {
 
     @Size(min = 1, max = 15, message = "O telefone do cliente deve ser válido")
     private String clientPhone;
+    
+    private String appointmentDateTime;
 
     private Long clientId;
 
@@ -34,11 +35,11 @@ public class RequestScheduleServiceJson {
 
     // Getters e Setters
 
-    public LocalDateTime getAppointmentDateTime() {
+    public String getAppointmentDateTime() {
         return appointmentDateTime;
     }
 
-    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
+    public void setAppointmentDateTime(String appointmentDateTime) {
         this.appointmentDateTime = appointmentDateTime;
     }
 

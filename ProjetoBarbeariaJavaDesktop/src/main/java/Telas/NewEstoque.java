@@ -29,10 +29,15 @@ public class NewEstoque extends JFrame {
 
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
+        
+        Runnable acaoVoltarParaMenu = () -> {
+            new MenuPrincipalBarbearia().setVisible(true); 
+             this.dispose();
+        };
 
         PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
             "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg",
-            () -> {}
+            acaoVoltarParaMenu
         );
 
         painelDeAcoes = new JPanel(new BorderLayout());

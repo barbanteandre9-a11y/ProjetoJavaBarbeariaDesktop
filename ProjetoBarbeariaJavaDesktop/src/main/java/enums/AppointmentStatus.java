@@ -6,9 +6,10 @@ package enums;
 import com.fasterxml.jackson.annotation.JsonValue; 
 
 public enum AppointmentStatus {
-    PENDING(1, "Aguardando confirmação"),
-    CONFIRMED(2, "Agendamento confirmado"),
-    COMPLETED(3, "Atendimento concluído"); 
+    NAOSEI(0, "Teste"),
+    PENDENTE(1, "Aguardando confirmação"),
+    CONFIRMADO(2, "Agendamento confirmado"),
+    CONCLUÍDO(3, "Atendimento concluído"); 
 
     private final int value;
     private final String description;

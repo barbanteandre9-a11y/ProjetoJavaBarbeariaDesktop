@@ -11,10 +11,12 @@ package entities;
 import enums.AppointmentStatus;
 import enums.PaymentType;
 import java.time.LocalDateTime;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Appointment {
+
+    public Object getServiceName;
     
     public Appointment() {}
     
@@ -32,6 +34,7 @@ public class Appointment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String observations = "";
+    private List<Service> services;
 
     // Getters and Setters
     public long getId() {
@@ -60,6 +63,10 @@ public class Appointment {
 
     public Long getClientId() {
         return clientId;
+    }
+    
+    public List<Service> getServices() { 
+        return services; 
     }
 
     public void setClientId(Long clientId) {
@@ -146,6 +153,8 @@ public class Appointment {
         this.observations = observations;
     }
     
+    public void setServices(List<Service> services) { this.services = services; }
+    
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm");
     
@@ -162,5 +171,12 @@ public class Appointment {
     public String getFormattedPrice() {
         double price = servicePrice / 100.0;
         return String.format("R$ %.2f", price);
+    }
+    
+    public String getServiceName() {
+        if (services != null && !services.isEmpty()) {
+            return services.get(0).getName();
+        }
+        return "N/A";
     }
 }
