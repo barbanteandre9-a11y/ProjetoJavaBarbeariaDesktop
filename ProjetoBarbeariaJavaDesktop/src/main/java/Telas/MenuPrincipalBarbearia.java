@@ -22,7 +22,7 @@ public class MenuPrincipalBarbearia extends JFrame {
         setLocationRelativeTo(null);
         inicializarComponentes();
     }
-
+    
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
 
@@ -30,7 +30,7 @@ public class MenuPrincipalBarbearia extends JFrame {
             new MenuPrincipalBarbearia().setVisible(true); // Abre o menu
             this.dispose(); // Fecha a tela atual de agendamento
         };
-
+   
         // 2. CRIAÇÃO DO HEADER, AGORA PASSANDO A AÇÃO DE VOLTAR
         PainelHeaderResponsivo painelHeader = new PainelHeaderResponsivo(
             "/images/e94be8fd-3199-4ff7-955b-8fe7cb3de77c.jpg",
@@ -45,15 +45,23 @@ public class MenuPrincipalBarbearia extends JFrame {
         "Agendamentos", 
         "\uD83D\uDCC6", 
         () -> {
-        new Agendamento().setVisible(true);
+            new Agendamento().setVisible(true);
         // dispose();
         }
     );
 
         painelDashboard.add(botaoAgendamento);
 
-        painelDashboard.add(elemento.criarBotaoFuncionalidadeVermelho("Estoque", "\uD83D\uDCE6"));
-        painelDashboard.add(elemento.criarBotaoFuncionalidadeVermelho("Faturamento", "\uD83D\uDCCA"));
+        painelDashboard.add(elemento.criarBotaoNavegacao("Estoque", 
+                "\uD83D\uDCE6",
+                ElementosTela.COR_PAINEL_BOTAO_VERMELHO,
+                ElementosTela.COR_PAINEL_BOTAO_HOVER_VERMELHO,
+                2,
+                () -> {
+            new Estoque().setVisible(true);
+        }));
+        
+        painelDashboard.add(elemento.criarBotaoFuncionalidadeVermelho("Faturamento", "\uD83D\uDCCA", () -> {}));
         
         JPanel botaoDespesas = elemento.criarBotaoFuncionalidadeAzul(
         "Despesas", 

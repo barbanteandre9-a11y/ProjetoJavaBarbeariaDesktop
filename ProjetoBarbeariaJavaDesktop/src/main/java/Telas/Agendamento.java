@@ -41,9 +41,9 @@ public class Agendamento extends JFrame {
 
     private void inicializarComponentes() {
         ElementosTela elemento = new ElementosTela();
+        
 
         Runnable acaoVoltarParaMenu = () -> {
-             new MenuPrincipalBarbearia().setVisible(true); 
              this.dispose();
         };
 

@@ -25,12 +25,12 @@ import javax.swing.border.EmptyBorder;
 public class ElementosTela extends javax.swing.JFrame {
     
     //cores do botão azul
-    private static final Color COR_PAINEL_BOTAO_AZUL = new Color(13, 71, 161); // Azul escuro
-    private static final Color COR_PAINEL_BOTAO_HOVER_AZUL = new Color(21, 101, 192); // Azul mais claro para hover
+    public static final Color COR_PAINEL_BOTAO_AZUL = new Color(13, 71, 161); // Azul escuro
+    public static final Color COR_PAINEL_BOTAO_HOVER_AZUL = new Color(21, 101, 192); // Azul mais claro para hover
     
     //cores do botão vermelho
-    private static final Color COR_PAINEL_BOTAO_VERMELHO = new Color(115, 63, 45); // vermelho mais forte
-    private static final Color COR_PAINEL_BOTAO_HOVER_VERMELHO = new Color(140, 55, 55); // vermelho mais claro
+    public static final Color COR_PAINEL_BOTAO_VERMELHO = new Color(115, 63, 45); // vermelho mais forte
+    public static final Color COR_PAINEL_BOTAO_HOVER_VERMELHO = new Color(140, 55, 55); // vermelho mais claro
     
     private static final Color COR_TEXTO = Color.WHITE;
     private static final Font FONTE_BOTAO = new Font("Segoe UI", Font.BOLD, 16);
@@ -86,8 +86,61 @@ public class ElementosTela extends javax.swing.JFrame {
     return painel;
 }
 
+    public JPanel criarBotaoNavegacao(
+    String texto,
+    String iconeUnicode,
+    Color corFundo,
+    Color corHover,
+    int larguraBorda,
+    Runnable acaoAoClicar
+    ) {
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
+        painel.setBackground(corFundo);
+        painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        Border margem = new EmptyBorder(15, 15, 15, 15);
+        Border bordaComposta = BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(corFundo, larguraBorda, true),
+            margem
+        );
+        painel.setBorder(bordaComposta);
+
+        JLabel iconeLabel = new JLabel(iconeUnicode, SwingConstants.CENTER);
+        iconeLabel.setFont(FONTE_ICONE);
+        iconeLabel.setForeground(COR_TEXTO);
+
+        JLabel textoLabel = new JLabel(texto, SwingConstants.CENTER);
+        textoLabel.setFont(FONTE_BOTAO);
+        textoLabel.setForeground(COR_TEXTO);
+
+        painel.add(iconeLabel, BorderLayout.CENTER);
+        painel.add(textoLabel, BorderLayout.SOUTH);
+
+        painel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                painel.setBackground(corHover);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                painel.setBackground(corFundo);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (acaoAoClicar != null) {
+                    acaoAoClicar.run();
+                }
+            }
+        });
+
+        return painel;
+    }
+
     
-    public JPanel criarBotaoFuncionalidadeVermelho(String texto, String iconeUnicode) {
+    public JPanel criarBotaoFuncionalidadeVermelho(String texto, String iconeUnicode, Runnable acaoAoClicar) {
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
         painel.setBackground(COR_PAINEL_BOTAO_VERMELHO);
@@ -129,13 +182,9 @@ public class ElementosTela extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(
-                    ElementosTela.this,
-                    "Abrindo a tela de: " + texto,
-                    "Navegação",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                acaoAoClicar.run();
             }
+            
         });
 
         return painel;
