@@ -52,8 +52,21 @@ public class MenuPrincipalBarbearia extends JFrame {
 
         painelDashboard.add(botaoAgendamento);
 
-        painelDashboard.add(elemento.criarBotaoFuncionalidadeVermelho("Estoque", "\uD83D\uDCE6"));
-        painelDashboard.add(elemento.criarBotaoFuncionalidadeVermelho("Faturamento", "\uD83D\uDCCA"));
+        
+        JPanel botaoEstoque = elemento.criarBotaoFuncionalidadeVermelho("Estoque", "\uD83D\uDCE6", () -> {
+            new NewEstoque().setVisible(true);
+        });
+        
+        painelDashboard.add(botaoEstoque);
+        
+        JPanel botaoRelatorio = elemento.criarBotaoFuncionalidadeVermelho(
+                "Faturamento", 
+                "\uD83D\uDCCA",
+                () -> {
+                    new Relatorio().setVisible(true);
+                }
+        );
+        painelDashboard.add(botaoRelatorio);
         
         JPanel botaoDespesas = elemento.criarBotaoFuncionalidadeAzul(
         "Despesas", 

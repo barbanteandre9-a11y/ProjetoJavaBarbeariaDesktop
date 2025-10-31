@@ -70,13 +70,20 @@ public class Agendamento extends JFrame {
         botaoPesquisar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JButton botaoLimpar = new JButton("Limpar");
-        // FIX: Reaplicando configurações de estilo
         botaoLimpar.setFocusPainted(false);
         botaoLimpar.setBackground(new Color(220, 53, 69));
         botaoLimpar.setForeground(Color.WHITE);
         botaoLimpar.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         botaoLimpar.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
+        
+        JButton botaoAtualizar = new JButton("Atualizar tela");
+        botaoAtualizar.setFocusPainted(false);
+        botaoAtualizar.setBackground(new Color(220, 53, 69));
+        botaoAtualizar.setForeground(Color.WHITE);
+        botaoAtualizar.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        botaoAtualizar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        painelEsquerda.add(botaoAtualizar);
         painelEsquerda.add(campoPesquisa);
         painelEsquerda.add(botaoPesquisar);
         painelEsquerda.add(botaoLimpar);
@@ -86,8 +93,9 @@ public class Agendamento extends JFrame {
         painelDireita.setBackground(Color.WHITE);
 
         Runnable acaoAdicionar = () -> {
-            new TelaCriarAgendamento().setVisible(true); 
+            new TelaCriarAgendamento().setVisible(true);
         };
+        
         JPanel botaoAdicionar = elemento.criarBotaoDeAcao("Novo Agendamento", "➕", acaoAdicionar);
 
         painelDireita.add(botaoAdicionar);
@@ -123,7 +131,8 @@ public class Agendamento extends JFrame {
         labelAviso = new JLabel("Carregando agendamentos...", SwingConstants.CENTER);
         labelAviso.setFont(new Font("Dialog", Font.ITALIC, 14));
         labelAviso.setForeground(Color.GRAY);
-
+        
+        botaoAtualizar.addActionListener(e -> recarregarTabela());
         botaoPesquisar.addActionListener(e -> aplicarFiltro());
         botaoLimpar.addActionListener(e -> limparPesquisa());
 
@@ -195,7 +204,7 @@ public class Agendamento extends JFrame {
                             ap.getFormattedTime(),
                             ap.getClientName(),
                             ap.getClientPhone(),
-                            "ID " + ap.getServiceId(), 
+                            ap.getServiceName(), 
                             pagamentoDescricao,
                             statusDescricao,
                             ap.getFormattedPrice(),

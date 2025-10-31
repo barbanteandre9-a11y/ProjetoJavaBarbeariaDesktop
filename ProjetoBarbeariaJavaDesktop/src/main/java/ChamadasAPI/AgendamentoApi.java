@@ -6,6 +6,7 @@ import responses.ResponseAppointmentsJson;
 import entities.Appointment;
 import java.io.IOException; 
 import com.fasterxml.jackson.databind.JsonNode;
+import entities.Service;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -62,6 +63,33 @@ public class AgendamentoApi {
             return Collections.emptyList();
         }
     }
+    
+            public List<Service> buscarServicos() throws Exception {
+ 
+
+            try {
+                HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(API_URL))
+                    .GET()
+                    .build();
+
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    return objectMapper.readValue(
+                        response.body(), 
+                        new com.fasterxml.jackson.core.type.TypeReference<List<Service>>() {}
+                    );
+                } else {
+                    System.err.println("Erro ao buscar serviços. Status: " + response.statusCode());
+                    throw new Exception("Falha ao buscar serviços na API.");
+                }
+
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                throw new Exception("Falha de comunicação ao buscar serviços.");
+            }
+        }
     
     public Appointment criarAgendamento(RequestScheduleServiceJson novoAgendamento) {
         try {

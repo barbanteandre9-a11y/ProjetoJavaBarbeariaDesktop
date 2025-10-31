@@ -57,7 +57,6 @@ public class TelaCriarAgendamento extends JFrame {
         ElementosTela elemento = new ElementosTela();
 
         Runnable acaoVoltarParaAgendamento = () -> {
-            // new Agendamento().setVisible(true);
             this.dispose();
         };
 
@@ -125,7 +124,7 @@ public class TelaCriarAgendamento extends JFrame {
         gbc.gridx = 0; gbc.gridy = y; gbc.anchor = GridBagConstraints.EAST; gbc.weightx = 0.0;
         painelFormulario.add(new JLabel("Serviço:"), gbc);
         gbc.gridx = 1; gbc.gridy = y++; gbc.anchor = GridBagConstraints.WEST; gbc.weightx = 1.0;
-        String[] servicos = {"Corte", "Barba", "Corte e Barba"};
+        String[] servicos = {"Design de Barba", "Corte de Cabelo", "Corte e Barba"};
         comboServico = new JComboBox<>(servicos);
         painelFormulario.add(comboServico, gbc);
         
@@ -133,7 +132,7 @@ public class TelaCriarAgendamento extends JFrame {
         gbc.gridx = 0; gbc.gridy = y; gbc.anchor = GridBagConstraints.EAST; gbc.weightx = 0.0;
         painelFormulario.add(new JLabel("Profissional:"), gbc);
         gbc.gridx = 1; gbc.gridy = y++; gbc.anchor = GridBagConstraints.WEST; gbc.weightx = 1.0;
-        String[] profissionais = {"André (ID 0)", "Bruno (ID 1)", "Carlos (ID 2)"};
+        String[] profissionais = {"André", "Daniel", "Emanoel"};
         comboProfissional = new JComboBox<>(profissionais);
         painelFormulario.add(comboProfissional, gbc);
         
@@ -196,13 +195,14 @@ public class TelaCriarAgendamento extends JFrame {
             String dataHoraApi = zonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).format(formatoSaidaApi);
 
             List<Long> serviceIds = new ArrayList<>();
-            if (servicoSelecionado.equals("Barba")) serviceIds.add(1L);
+            if (servicoSelecionado.equals("Corte de Cabelo")) serviceIds.add(1L);
             else if (servicoSelecionado.equals("Corte e Barba")) serviceIds.add(2L);
-            else if (servicoSelecionado.equals("Corte")) serviceIds.add(3L);
+            else if (servicoSelecionado.equals("Design de Barba")) serviceIds.add(3L);
 
             Long employeeId = 0L;
-            if (profissionalSelecionado.contains("(ID 1)")) employeeId = 1L;
-            else if (profissionalSelecionado.contains("(ID 2)")) employeeId = 2L;
+            if (profissionalSelecionado.contains("André")) employeeId = 1L;
+            else if (profissionalSelecionado.contains("Daniel")) employeeId = 2L;
+            else if(profissionalSelecionado.contains("Emanoel")) employeeId = 3L;
             
             PaymentType paymentType = null;
             for (PaymentType pt : PaymentType.values()) {

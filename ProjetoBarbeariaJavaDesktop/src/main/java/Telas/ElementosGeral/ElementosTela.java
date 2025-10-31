@@ -9,7 +9,6 @@ import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
@@ -89,13 +88,12 @@ public class ElementosTela extends javax.swing.JFrame {
 }
 
     
-    public JPanel criarBotaoFuncionalidadeVermelho(String texto, String iconeUnicode) {
+    public JPanel criarBotaoFuncionalidadeVermelho(String texto, String iconeUnicode, Runnable acaoAoClicar) {
         JPanel painel = new JPanel();
         painel.setLayout(new BorderLayout());
         painel.setBackground(COR_PAINEL_BOTAO_VERMELHO);
         painel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        // Borda arredondada
         Border margem = new EmptyBorder(15, 15, 15, 15);
         Border bordaComposta = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(COR_PAINEL_BOTAO_VERMELHO, 10, true), // Simula o arredondamento
@@ -103,12 +101,10 @@ public class ElementosTela extends javax.swing.JFrame {
         );
         painel.setBorder(bordaComposta);
 
-        // Ícone
         JLabel iconeLabel = new JLabel(iconeUnicode, SwingConstants.CENTER);
         iconeLabel.setFont(FONTE_ICONE);
         iconeLabel.setForeground(COR_TEXTO);
 
-        // Texto
         JLabel textoLabel = new JLabel(texto, SwingConstants.CENTER);
         textoLabel.setFont(FONTE_BOTAO);
         textoLabel.setForeground(COR_TEXTO);
@@ -116,11 +112,10 @@ public class ElementosTela extends javax.swing.JFrame {
         painel.add(iconeLabel, BorderLayout.CENTER);
         painel.add(textoLabel, BorderLayout.SOUTH);
 
-        // Adicionar eventos do mouse
         painel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Efeito hover ao entrar o mouse
+             
                 painel.setBackground(COR_PAINEL_BOTAO_HOVER_VERMELHO);
             }
 
@@ -131,12 +126,9 @@ public class ElementosTela extends javax.swing.JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(
-                    ElementosTela.this,
-                    "Abrindo a tela de: " + texto,
-                    "Navegação",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                if (acaoAoClicar != null) {
+                acaoAoClicar.run();
+            }
             }
         });
 
